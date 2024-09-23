@@ -6,7 +6,7 @@
 /*   By: mmravec <mmravec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 22:16:59 by mmravec           #+#    #+#             */
-/*   Updated: 2024/09/23 22:30:38 by mmravec          ###   ########.fr       */
+/*   Updated: 2024/09/23 23:20:52 by mmravec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ static char	*obtain_remaining(char *buffer)
 	return (temp);
 }
 
-static char *read_from_file(char *main_buffer, int fd)
+static char	*read_from_file(char *main_buffer, int fd)
 {
 	char	*local_buffer;
 	int		bytes_read;
@@ -87,11 +87,22 @@ static char *read_from_file(char *main_buffer, int fd)
 	return (main_buffer);
 }
 
-static char *append_buffer(char *main_buffer, char *read_buffer)
+static char	*append_buffer(char *main_buffer, char *read_buffer)
 {
-	char *temp;
+	size_t	main_len;
+	size_t	read_len;
+	char	*temp;
 
-	temp = ft_strjoin(main_buffer, read_buffer);
+	main_len = ft_strlen(main_buffer);
+	read_len = ft_strlen(read_buffer);
+	temp = (char *)malloc(main_len + read_len + 1);
+	if (!temp)
+	{
+		free(main_buffer);
+		return (NULL);
+	}
+	ft_strlcpy(temp, main_buffer, main_len + 1);
+	ft_strlcpy(temp + main_len, read_buffer, read_len + 1);
 	free(main_buffer);
 	return (temp);
 }
