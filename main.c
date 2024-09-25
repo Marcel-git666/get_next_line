@@ -6,7 +6,7 @@
 /*   By: mmravec <mmravec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 22:27:00 by mmravec           #+#    #+#             */
-/*   Updated: 2024/09/23 22:22:28 by mmravec          ###   ########.fr       */
+/*   Updated: 2024/09/25 12:53:07 by mmravec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int main(void)
 	int		count;
 
 	count = 0;
-	fd = open("example.txt", O_RDONLY);
+	fd = open("read.txt", O_RDONLY);
 	if (fd == -1)
 	{
 		printf("Error opening file");
