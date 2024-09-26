@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mmravec <mmravec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 22:16:59 by mmravec           #+#    #+#             */
-/*   Updated: 2024/09/26 18:21:41 by mmravec          ###   ########.fr       */
+/*   Updated: 2024/09/26 18:33:13 by mmravec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 static char	*append_buffer(char *main_buffer, char *read_buffer);
 
@@ -111,23 +111,21 @@ static char	*append_buffer(char *main_buffer, char *read_buffer)
 
 char	*get_next_line(int fd)
 {
-	static char	*main_buffer;
+	static char	*main_buffers[MAXFD];
 	char		*line;
 
-	if (fd < 0 || BUFFER_SIZE <= 0)
+	if (fd < 0 || fd >= MAXFD || BUFFER_SIZE <= 0)
 		return (NULL);
-	if (!main_buffer)
-		main_buffer = NULL;
-	main_buffer = read_from_file(main_buffer, fd);
-	if (!main_buffer)
+	main_buffers[fd] = read_from_file(main_buffers[fd], fd);
+	if (!main_buffers[fd])
 		return (NULL);
-	line = extract_line(main_buffer);
+	line = extract_line(main_buffers[fd]);
 	if (!line)
 	{
-		free(main_buffer);
-		main_buffer = NULL;
+		free(main_buffers[fd]);
+		main_buffers[fd] = NULL;
 		return (NULL);
 	}
-	main_buffer = obtain_remaining(main_buffer);
+	main_buffers[fd] = obtain_remaining(main_buffers[fd]);
 	return (line);
 }
